@@ -25,6 +25,6 @@ const flyHome = () => {
     cesiumBox.resetDefaultCamPosition()
 }
 onMounted(() => {
-    cesiumBox.init(viewerRef.value!).setView()
+    cesiumBox.init(viewerRef.value!)
 })
 </script>

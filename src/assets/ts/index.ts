@@ -13,6 +13,7 @@ export class CesiumBox {
     this.viewer = new Viewer(dom, this.options);
     this.initQuene.forEach((f) => f());
     this.initQuene.length = 0;
+    this.setView()
     return this;
   };
   setOptions = (options: Viewer.ConstructorOptions) => {
@@ -66,7 +67,7 @@ export class CesiumBox {
       },
     });
   }
-  setView(
+  private setView(
     destination: {
       latitude: number;
       longitude: number;
