@@ -11,9 +11,12 @@ export class CesiumBox {
   }
   init = (dom: Element) => {
     this.viewer = new Viewer(dom, this.options);
-    this.initQuene.forEach((f) => f());
+    this.initQuene.forEach((f) => {
+      console.log(f);
+      f();
+    });
     this.initQuene.length = 0;
-    this.setView()
+    this.setView();
     return this;
   };
   setOptions = (options: Viewer.ConstructorOptions) => {
@@ -46,7 +49,7 @@ export class CesiumBox {
       this.viewer?.imageryLayers.addImageryProvider(
         new WebMapTileServiceImageryProvider({
           url:
-            "http://t0.tianditu.gov.cn/cva_w/wmts?tk=" +
+            "http://t0.tianditu.com/cva_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cva&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg&tk=" +
             (token ?? this.tdtToken),
           layer: "tdtAnnoLayer",
           style: "default",

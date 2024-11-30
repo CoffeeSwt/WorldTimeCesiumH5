@@ -1,30 +1,58 @@
 <template>
-    <div ref="viewerRef" w-full h-screen></div>
-    <div fixed top-0 left-0 size-20 bg-black @click="flyHome">111</div>
+    <div ref="viewerRef" w-full aspect-ratio-2-1></div>
 </template>
 
 <script setup lang="ts">
-import { CesiumBox } from '@/assets/ts';
-const viewerRef = ref(null)
-const tdtKey = '2fad0ff3b2a3043f59d78b4b575e3bca'
-const cesiumBox = new CesiumBox().setOptions({
-    animation: false,
-    baseLayerPicker: false,
-    fullscreenButton: false,
-    geocoder: false,
-    homeButton: false,
-    infoBox: false,
-    sceneModePicker: false,
-    selectionIndicator: false,
-    timeline: false,
-    navigationHelpButton: false,
-    shadows: true,
+import * as echarts from 'echarts';
+//@ts-ignore
+import worldGeoJsonZh from '@/assets/world.zh.json'
+import worldTimeZone from '@/assets/Time_Zones.geo.json'
+import { GeoJSONSourceInput } from 'echarts/types/src/coord/geo/geoTypes.js';
+const viewerRef = ref<HTMLDivElement | null>(null)
+let myChart: echarts.ECharts | null = null
+const options = reactive({
+    tooltip: {
+        trigger: 'item',
+        formatter: '{b}', // 显示区域名称
+    },
+    geo: {
+        map: 'WorldTimeZone',
+        roam: true, // 启用缩放和拖拽
+        emphasis: {
+            itemStyle: {
+                areaColor: '#FF9F00', // 高亮颜色
+                borderColor: '#FF8C00', // 高亮边框颜色
+                borderWidth: 2
+            }
+        }
+    },
+    // series: [
+    //     {
+    //         type: 'map',
+    //         map: 'WorldTimeZone',
+    //         geoJson: worldTimeZone, // 地图数据
+    //         emphasis: {
+    //             label: {
+    //                 show: true
+    //             },
+    //             itemStyle: {
+    //                 areaColor: '#FF9F00', // 区域高亮颜色
+    //                 borderColor: '#FF8C00', // 边框高亮颜色
+    //                 borderWidth: 2
+    //             }
+    //         }
+    //     }
+    // ]
 })
-cesiumBox.withTDTToken(tdtKey).useVecBasicLayer().useVecLayerTags()
-const flyHome = () => {
-    cesiumBox.resetDefaultCamPosition()
-}
+watch(options, () => {
+    myChart?.setOption(options);
+}, {
+    deep: true
+})
 onMounted(() => {
-    cesiumBox.init(viewerRef.value!)
+    myChart = echarts.init(viewerRef.value!);
+    echarts.registerMap('World', worldGeoJsonZh as GeoJSONSourceInput);
+    echarts.registerMap('WorldTimeZone', worldTimeZone as GeoJSONSourceInput);
+    myChart.setOption(options);
 })
 </script>

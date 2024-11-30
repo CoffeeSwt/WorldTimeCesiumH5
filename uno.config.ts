@@ -10,6 +10,7 @@ import {
 } from "unocss";
 
 export default defineConfig({
+  rules: [["aspect-ratio-2-1", { "aspect-ratio": 2 / 1 }]],
   shortcuts: [
     // ...
   ],
