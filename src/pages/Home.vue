@@ -19,7 +19,7 @@ const withID = (json: any) => {
     }
 }
 const viewerRef = ref(null)
-mapboxgl.accessToken = 'pk.eyJ1IjoiY29mZmVlc3ciLCJhIjoiY200NDV5c2dnMGlyeTJrcHl4M29mdXd0aiJ9.HzKXJJpw3zS-ySKJWxqXmw';
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 onMounted(() => {
     const map = new mapboxgl.Map({
         container: viewerRef.value!, // container ID
