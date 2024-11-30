@@ -2,15 +2,20 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite"; // 自动导入插件
-import cesium from "vite-plugin-cesium"; // 引入cesium地图Vite插件
 import UnoCSS from "unocss/vite";
 
 // https://vite.dev/config/
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern-compiler", // or 'modern'
+      },
+    },
+  },
   plugins: [
     vue(),
-    cesium(),
     UnoCSS(),
     AutoImport({
       dts: true, // or a custom path
